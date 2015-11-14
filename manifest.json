@@ -1,0 +1,17 @@
+{
+  "name": "Anchorage",
+
+  "manifest_version": 2,
+  "description": "THack NYC 2015 app",
+  "version": "1.0",
+
+  "permissions": ["activeTab"],
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.priceline.com/*"],
+      "css": ["content.css"],
+      "js": ["content.js"]
+    }
+  ]
+}
