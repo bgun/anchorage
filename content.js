@@ -18,12 +18,16 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
+var _settings = require('../settings.json');
+
+var _settings2 = _interopRequireDefault(_settings);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function run(anchor_obj) {
 
   var params = {
-    api_key: "2e9be5ac9c35726b3942fd73a24f15af",
+    api_key: _settings2.default.FLICKR_API_KEY,
     format: 'json',
     lat: anchor_obj.lat,
     lon: anchor_obj.lon,
@@ -34,7 +38,7 @@ function run(anchor_obj) {
 
   var url = "https://api.flickr.com/services/rest/?method=flickr.photos.search&" + _qs2.default.stringify(params);
 
-  var proxyUrl = "http://localhost:9000?url=" + encodeURIComponent(url);
+  var proxyUrl = _settings2.default.PROXY_URL + encodeURIComponent(url);
 
   return new Promise(function (resolve, reject) {
     _superagent2.default.get(proxyUrl).end(function (err, resp) {
@@ -48,7 +52,7 @@ function run(anchor_obj) {
   });
 }
 
-},{"lodash":7,"qs":8,"superagent":169}],2:[function(require,module,exports){
+},{"../settings.json":172,"lodash":7,"qs":8,"superagent":169}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68,6 +72,10 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
+var _settings = require('../settings.json');
+
+var _settings2 = _interopRequireDefault(_settings);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function run(anchor_obj) {
@@ -79,8 +87,6 @@ function run(anchor_obj) {
   '4bf58dd8d48988d103951735' // Clothing Store
   ].join(',');
 
-  var baseUrl = "https://api.foursquare.com/v2/venues/search?";
-  var proxyUrl = "http://localhost:9000?url=";
   var params = {
     ll: anchor_obj.lat + "," + anchor_obj.lon,
     categoryId: categories,
@@ -89,13 +95,15 @@ function run(anchor_obj) {
     limit: 50,
     v: 20140806,
     m: "foursquare",
-    client_id: "HEJVAAIGR31R5JB3IZDFQVWDOCGAXOIZB5NGJHIOEADKYGZF",
-    client_secret: "AN0M1JJ23ZXVW02KMMGSXXJETQ5JCWLAWEOEFCMM1SX0PEGD"
+    client_id: _settings2.default.FSQ_CLIENT_ID,
+    client_secret: _settings2.default.FSQ_CLIENT_SECRET
   };
 
+  var baseUrl = "https://api.foursquare.com/v2/venues/search?";
+  var url = baseUrl + _qs2.default.stringify(params);
+  url = _settings2.default.PROXY_URL + encodeURIComponent(url);
+
   return new Promise(function (resolve, reject) {
-    var url = baseUrl + _qs2.default.stringify(params);
-    url = proxyUrl + encodeURIComponent(url);
     console.log(url);
     _superagent2.default.get(url).end(function (err, resp) {
       if (err) reject(err);
@@ -111,7 +119,7 @@ function run(anchor_obj) {
   });
 };
 
-},{"lodash":7,"qs":8,"superagent":169}],3:[function(require,module,exports){
+},{"../settings.json":172,"lodash":7,"qs":8,"superagent":169}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -127,6 +135,10 @@ var _qs = require('qs');
 
 var _qs2 = _interopRequireDefault(_qs);
 
+var _settings = require('../settings.json');
+
+var _settings2 = _interopRequireDefault(_settings);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function run() {
@@ -134,7 +146,7 @@ function run() {
   var query = _qs2.default.parse(document.location.search);
   var prop_id = query.propID;
 
-  var url = 'http://localhost:9000?url=' + encodeURIComponent("https://www.priceline.com/pws/v0/stay/retail/listing/" + prop_id);
+  var url = _settings2.default.PROXY_URL + encodeURIComponent("https://www.priceline.com/pws/v0/stay/retail/listing/" + prop_id);
 
   return new Promise(function (resolve, reject) {
     _superagent2.default.get(url).end(function (err, resp) {
@@ -148,7 +160,7 @@ function run() {
   });
 }
 
-},{"qs":8,"superagent":169}],4:[function(require,module,exports){
+},{"../settings.json":172,"qs":8,"superagent":169}],4:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -42829,4 +42841,11 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
+},{}],172:[function(require,module,exports){
+module.exports={
+    "PROXY_URL": "http://localhost:9000/?url=",
+    "FLICKR_API_KEY": "2e9be5ac9c35726b3942fd73a24f15af",
+    "FSQ_CLIENT_ID": "HEJVAAIGR31R5JB3IZDFQVWDOCGAXOIZB5NGJHIOEADKYGZF",
+    "FSQ_CLIENT_SECRET": "AN0M1JJ23ZXVW02KMMGSXXJETQ5JCWLAWEOEFCMM1SX0PEGD"
+}
 },{}]},{},[4]);

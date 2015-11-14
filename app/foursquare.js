@@ -2,9 +2,13 @@ import request from 'superagent';
 import qs      from 'qs';
 import _       from 'lodash';
 
+import settings from '../settings.json';
+
+
 export default function run(anchor_obj) {
 
   console.log("FOURSQUARE ANCHOR", anchor_obj);
+
 
   var categories = [
     '4d4b7105d754a06374d81259', // Food
@@ -12,8 +16,6 @@ export default function run(anchor_obj) {
     '4bf58dd8d48988d103951735'  // Clothing Store
   ].join(',');
 
-  var baseUrl = "https://api.foursquare.com/v2/venues/search?";
-  var proxyUrl = "http://localhost:9000?url=";
   var params = {
     ll: anchor_obj.lat+","+anchor_obj.lon,
     categoryId: categories,
@@ -22,13 +24,15 @@ export default function run(anchor_obj) {
     limit: 50,
     v: 20140806,
     m: "foursquare",
-    client_id: "HEJVAAIGR31R5JB3IZDFQVWDOCGAXOIZB5NGJHIOEADKYGZF",
-    client_secret: "AN0M1JJ23ZXVW02KMMGSXXJETQ5JCWLAWEOEFCMM1SX0PEGD"
+    client_id: settings.FSQ_CLIENT_ID,
+    client_secret: settings.FSQ_CLIENT_SECRET
   };
 
+  var baseUrl = "https://api.foursquare.com/v2/venues/search?";
+  var url = baseUrl + qs.stringify(params);
+  url = settings.PROXY_URL+encodeURIComponent(url);
+
   return new Promise(function(resolve, reject) {
-    var url = baseUrl + qs.stringify(params);
-    url = proxyUrl + encodeURIComponent(url);
     console.log(url);
     request
       .get(url)

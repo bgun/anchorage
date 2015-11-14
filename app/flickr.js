@@ -2,11 +2,13 @@ import request from 'superagent';
 import qs      from 'qs';
 import _       from 'lodash';
 
+import settings from '../settings.json';
+
 
 export default function run(anchor_obj) {
 
   var params = {
-    api_key: "2e9be5ac9c35726b3942fd73a24f15af",
+    api_key: settings.FLICKR_API_KEY,
     format: 'json',
     lat: anchor_obj.lat,
     lon: anchor_obj.lon,
@@ -17,7 +19,7 @@ export default function run(anchor_obj) {
 
   var url = "https://api.flickr.com/services/rest/?method=flickr.photos.search&"+qs.stringify(params);
 
-  var proxyUrl = "http://localhost:9000?url="+encodeURIComponent(url);
+  var proxyUrl = settings.PROXY_URL+encodeURIComponent(url);
 
   return new Promise(function(resolve, reject) {
     request
