@@ -15,6 +15,7 @@
     "mapbox.js": "^2.2.3",
     "qs": "^6.0.0",
     "react": "^0.14.2",
+    "react-dom": "^0.14.2",
     "scraperjs": "^1.0.1",
     "superagent": "^1.4.0"
   },
