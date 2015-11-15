@@ -16,10 +16,6 @@ console.log(appEnv);
 
 
 
-app.use('/', function(req, res) {
-  res.send('<h2>hello dencity</h2>');
-});
-
 app.use('/proxy', function(req, res) {
   var url = decodeURIComponent(req.query.url);
   console.log("URL:",url);
@@ -52,6 +48,10 @@ app.use('/scrape-hcom', function(req, res) {
         lon: parseFloat(result[1])
       });
     });
+});
+
+app.use('/', function(req, res) {
+  res.send('<h2>hello dencity</h2>');
 });
 
 //app.listen(PORT);
