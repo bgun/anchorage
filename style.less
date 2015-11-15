@@ -1,3 +1,25 @@
+@assets_path: 'http://localhost:9000';
+@link_color: #ff6322;
+
+#anchorage-toggle {
+  background-color: @link_color;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #FFF;
+  font-size: 30px;
+  font-weight: bold;
+  height: 50px;
+  line-height: 50px;
+  position: fixed;
+    top: 0;
+    right: 0;
+  text-align: center;
+  width: 40px;
+  z-index: 100001;
+
+  &.right { background-image: url('@{assets_path}/arrow-right.png'); }
+  &.left  { background-image: url('@{assets_path}/arrow-left.png'); }
+}
 #anchorage-main {
   background: #F8F8F8;
   box-shadow: -12px 0 12px rgba(0, 0, 0, 0.2);
@@ -14,7 +36,7 @@
   transition-property: all;
   transition-duration: 0.3s;
   width: 400px;
-  z-index: 9999999;
+  z-index: 100000;
 
   * {
     list-style: none;
@@ -27,17 +49,83 @@
   }
 
   a {
-    color: #F96332;
+    color: @link_color;
     font-weight: bold;
   }
   header {
-    background: #F96332;
+    background: @link_color;
+    background-image: url('@{assets_path}/dencity.png');
+    background-position: center;
+    background-repeat: no-repeat;
     height: 50px;
   }
-  h2 {
+
+  #mapbox-map {
+    border: 1px solid #EEE;
+    display: none;
+    height: 0;
+    overflow: hidden;
+
+    &.show {
+      display: block;
+      height: 360px;
+    }
+
+    .leaflet-control-zoom {
+      margin: 10px;
+    }
   }
-  address {
+
+  .tabs {
+    .tab {
+      display: inline-block;
+      color: #AAA;
+      cursor: pointer;
+      font-weight: bold;
+      padding: 10px;
+
+      &.selected {
+        color: @link_color;
+      }
+    }
   }
+
+  .ratings {
+    padding: 10px;
+
+    .rating {
+      float: left;
+      margin: 10px 25px 10px 0;
+      width: 160px;
+
+      .title {
+        color: #888;
+        font-size: 12px;
+        text-align: left;
+      }
+
+      .track {
+        background: white;
+        border: 1px solid #E1E1E1;
+        border-radius: 8px;
+
+        .bar {
+          background: #3300AA;
+          border-radius: 8px;
+          height: 24px;
+          transition-duration: 0.5s;
+          transition-property: all;
+
+          &.vgood    { background: #82ff60; }
+          &.good     { background: #62b0ff; }
+          &.moderate { background: #ffbb45; }
+          &.poor     { background: #ff3c3c; }
+        }
+
+      }
+    }
+  }
+
   .photo-list {
     padding: 10px 0 0 10px;
 
@@ -59,16 +147,17 @@
   .venue-list {
     .venue {
       margin: 10px 0;
-      min-height: 120px;
-      padding: 0 10px 0 120px;
+      min-height: 100px;
+      padding: 0 100px 0 10px;
       position: relative;
 
       img {
-        height: 100px;
+        border: 1px solid #DDD;
+        height: 80px;
         position: absolute;
           top: 0;
-          left: 10px;
-        width: 100px;
+          right: 10px;
+        width: 80px;
       }
     }
   }

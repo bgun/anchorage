@@ -5,6 +5,7 @@ var scraper = require('scraperjs');
 var PORT = process.env.port || 9000;
 
 var app = express();
+app.use(express.static('public'));
 
 app.use('/proxy', function(req, res) {
   var url = decodeURIComponent(req.query.url);
