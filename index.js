@@ -107,6 +107,8 @@ class Anchorage extends React.Component {
 
     t.setState({
       show: true,
+      rating_transport: anchor_obj.rating_transport * 10,
+      rating_safety   : anchor_obj.rating_safety    * 10,
       lat: anchor_obj.lat,
       lon: anchor_obj.lon,
       map: map

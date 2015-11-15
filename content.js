@@ -99,6 +99,9 @@ function run(anchor_obj) {
     var norm = (avg - 5) / (10 - 5);
     return norm * 100;
   };
+  var hasRating = function hasRating(obj) {
+    return obj.rating ? true : false;
+  };
 
   var baseUrl = "https://api.foursquare.com/v2/venues/explore?";
 
@@ -178,9 +181,9 @@ function run(anchor_obj) {
     Promise.all(promises).then(function (resolutions) {
       outerResolve({
         venues: resolutions[0].slice(0, 10),
-        rating_culture: normalizeFsqRatings(_lodash2.default.pluck(resolutions[1], 'rating')),
-        rating_food: normalizeFsqRatings(_lodash2.default.pluck(resolutions[0], 'rating')),
-        rating_fun: normalizeFsqRatings(_lodash2.default.pluck(resolutions[2], 'rating'))
+        rating_culture: normalizeFsqRatings((0, _lodash2.default)(resolutions[1]).filter(hasRating).pluck('rating').value()),
+        rating_food: normalizeFsqRatings((0, _lodash2.default)(resolutions[0]).filter(hasRating).pluck('rating').value()),
+        rating_fun: normalizeFsqRatings((0, _lodash2.default)(resolutions[2]).filter(hasRating).pluck('rating').value())
       });
       console.log("RESOLUTIONS", resolutions);
     });
@@ -275,6 +278,8 @@ function run() {
       var hotel = resp.body.hotel;
       console.log("HOTEL", hotel);
       resolve({
+        rating_safety: hotel.ratings[1].score,
+        rating_transport: hotel.ratings[2].score,
         lat: hotel.location.latitude,
         lon: hotel.location.longitude
       });
@@ -431,6 +436,7 @@ var Anchorage = (function (_React$Component3) {
 
       L.mapbox.accessToken = _settings2.default.MAPBOX_TOKEN;
       var map = L.mapbox.map('mapbox-map', _settings2.default.MAPBOX_ID, {
+        attributionControl: false,
         scrollWheelZoom: false
       });
       var venueIcon = L.mapbox.marker.icon({ 'marker-color': '#1133FF', 'marker-symbol': 'restaurant' });
@@ -468,6 +474,8 @@ var Anchorage = (function (_React$Component3) {
 
       t.setState({
         show: true,
+        rating_transport: anchor_obj.rating_transport * 10,
+        rating_safety: anchor_obj.rating_safety * 10,
         lat: anchor_obj.lat,
         lon: anchor_obj.lon,
         map: map

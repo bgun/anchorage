@@ -1,24 +1,20 @@
 #anchorage-toggle {
-  background-color: #ff6322;
+  background-color: #ff4800;
   background-position: center;
   background-repeat: no-repeat;
-  color: #FFF;
-  font-size: 30px;
-  font-weight: bold;
-  height: 50px;
-  line-height: 50px;
+  height: 40px;
   position: fixed;
   top: 0;
   right: 0;
   text-align: center;
-  width: 40px;
+  width: 80px;
   z-index: 100001;
 }
 #anchorage-toggle.right {
   background-image: url('http://localhost:9000/arrow-right.png');
 }
 #anchorage-toggle.left {
-  background-image: url('http://localhost:9000/arrow-left.png');
+  background-image: url('http://localhost:9000/dclogo.png');
 }
 #anchorage-main {
   background: #F8F8F8;
@@ -47,15 +43,15 @@
   right: 0;
 }
 #anchorage-main a {
-  color: #ff6322;
+  color: #ff4800;
   font-weight: bold;
 }
 #anchorage-main header {
-  background: #ff6322;
+  background: #ff4800;
   background-image: url('http://localhost:9000/dencity.png');
   background-position: center;
   background-repeat: no-repeat;
-  height: 50px;
+  height: 40px;
 }
 #anchorage-main #mapbox-map {
   border: 1px solid #EEE;
@@ -73,11 +69,12 @@
 #anchorage-main .tabs .tab {
   display: inline-block;
   color: #AAA;
+  cursor: pointer;
   font-weight: bold;
   padding: 10px;
 }
 #anchorage-main .tabs .tab.selected {
-  color: #ff6322;
+  color: #ff4800;
 }
 #anchorage-main .ratings {
   padding: 10px;

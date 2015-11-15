@@ -24,6 +24,9 @@ export default function run(anchor_obj) {
     var norm = (avg-5) / (10-5);
     return norm*100;
   };
+  var hasRating = function(obj) {
+    return obj.rating ? true : false;
+  }
 
   var baseUrl = "https://api.foursquare.com/v2/venues/explore?";
 
@@ -106,9 +109,9 @@ export default function run(anchor_obj) {
       .then(function(resolutions) {
         outerResolve({
           venues: resolutions[0].slice(0,10),
-          rating_culture : normalizeFsqRatings(_.pluck(resolutions[1], 'rating')),
-          rating_food    : normalizeFsqRatings(_.pluck(resolutions[0], 'rating')),
-          rating_fun     : normalizeFsqRatings(_.pluck(resolutions[2], 'rating'))
+          rating_culture : normalizeFsqRatings(_(resolutions[1]).filter(hasRating).pluck('rating').value()),
+          rating_food    : normalizeFsqRatings(_(resolutions[0]).filter(hasRating).pluck('rating').value()),
+          rating_fun     : normalizeFsqRatings(_(resolutions[2]).filter(hasRating).pluck('rating').value())
         });
         console.log("RESOLUTIONS", resolutions);
       });

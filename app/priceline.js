@@ -23,6 +23,8 @@ export default function run() {
         var hotel = resp.body.hotel;
         console.log("HOTEL",hotel);
         resolve({
+          rating_safety   : hotel.ratings[1].score,
+          rating_transport: hotel.ratings[2].score,
           lat: hotel.location.latitude,
           lon: hotel.location.longitude
         });
