@@ -1,11 +1,19 @@
 var express = require('express');
 var request = require('superagent');
 var scraper = require('scraperjs');
+var cfenv   = require('cfenv');
 
 var PORT = process.env.port || 9000;
 
 var app = express();
-app.use(express.static('public'));
+//app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
+
+// get the app environment from Cloud Foundry
+var appEnv = cfenv.getAppEnv();
+
+
+
 
 app.use('/', function(req, res) {
   res.send('<h2>hello dencity</h2>');
@@ -45,5 +53,10 @@ app.use('/scrape-hcom', function(req, res) {
     });
 });
 
-app.listen(PORT);
+//app.listen(PORT);
+// start server on the specified port and binding host
+app.listen(appEnv.port, '0.0.0.0', function() {
+  // print a message when the server starts listening
+  console.log("server starting on " + appEnv.url);
+});
 console.log("Server listening on port %d", PORT);
