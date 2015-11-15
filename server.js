@@ -7,6 +7,10 @@ var PORT = process.env.port || 9000;
 var app = express();
 app.use(express.static('public'));
 
+app.use('/', function(req, res) {
+  res.send('<h2>hello dencity</h2>');
+});
+
 app.use('/proxy', function(req, res) {
   var url = decodeURIComponent(req.query.url);
   console.log("URL:",url);
