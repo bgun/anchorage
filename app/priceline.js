@@ -17,6 +17,7 @@ export default function run() {
       .end(function(err, resp) {
         if(err) reject(err);
         var hotel = resp.body.hotels[0];
+        console.log("HOTEL",hotel);
         resolve({
           lat: hotel.location.latitude,
           lon: hotel.location.longitude

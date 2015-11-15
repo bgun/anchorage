@@ -7,43 +7,39 @@ import settings from '../settings.json';
 
 export default function run(anchor_obj) {
 
-  console.log("FOURSQUARE ANCHOR", anchor_obj);
-
-
-  var categories = [
-    '4d4b7105d754a06374d81259', // Food
-    '4bf58dd8d48988d1e0931735', // Coffee Shop
-    '4bf58dd8d48988d103951735'  // Clothing Store
-  ].join(',');
-
   var params = {
-    ll: anchor_obj.lat+","+anchor_obj.lon,
-    categoryId: categories,
-    intent: 'browse',
-    radius: 1500,
-    limit: 50,
-    v: 20140806,
-    m: "foursquare",
     client_id: settings.FSQ_CLIENT_ID,
-    client_secret: settings.FSQ_CLIENT_SECRET
+    client_secret: settings.FSQ_CLIENT_SECRET,
+    limit: 20,
+    m: "foursquare",
+    near: anchor_obj.lat+","+anchor_obj.lon,
+    radius: 500,
+    section: 'food',
+    v: 20140806,
+    venuePhotos: 1
   };
 
-  var baseUrl = "https://api.foursquare.com/v2/venues/search?";
+  var baseUrl = "https://api.foursquare.com/v2/venues/explore?";
   var url = baseUrl + qs.stringify(params);
   url = settings.PROXY_URL+encodeURIComponent(url);
 
   return new Promise(function(resolve, reject) {
-    console.log(url);
+    console.log("foursquare",url);
     request
       .get(url)
       .end(function(err, resp) {
         if(err) reject(err);
-        let venues = resp.body.response.venues;
-        resolve(venues.map(function(v) {
+        let items = resp.body.response.groups[0].items;
+        resolve(items.map(function(i) {
+          var v = i.venue;
+          console.log(v);
+          var photo = v.photos.count ? v.photos.groups[0].items[0] : null;
           return {
-            name: v.name,
-            address: v.location ? v.location.address : '',
-            category: (v.categories && v.categories.length) ? v.categories[0].name : ''
+            name    : v.name,
+            phone   : v.contact ? v.contact.phone : '',
+            address : v.location ? v.location.formattedAddress.join(', ') : '',
+            category: (v.categories && v.categories.length) ? v.categories[0].name : '',
+            photo   : photo ? photo.prefix+'300'+photo.suffix : ''
           }
         }));
       });

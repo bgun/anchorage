@@ -9,7 +9,7 @@
 
   "content_scripts": [
     {
-      "matches": ["*://*.priceline.com/*"],
+      "matches": ["*://*.priceline.com/*","*://*.hotels.com/*"],
       "css": ["content.css"],
       "js": ["content.js"]
     }
