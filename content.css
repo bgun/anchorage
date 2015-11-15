@@ -53,6 +53,12 @@
   background-repeat: no-repeat;
   height: 40px;
 }
+#anchorage-main h2.title {
+  color: #ff4800;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px;
+}
 #anchorage-main #mapbox-map {
   border: 1px solid #EEE;
   display: none;

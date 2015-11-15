@@ -201,6 +201,7 @@ class Anchorage extends React.Component {
         <div id="anchorage-toggle" onClick={ t.toggle.bind(t) } className={ t.state.show ? 'right' : 'left' }></div>
         <div id="anchorage-main" className={ t.state.show ? 'show' : '' }>
           <header></header>
+          <h2 className="title">Neighborhood Scores</h2>
           <ul className="ratings">
             <li className="rating"><div className="title">Overall  </div><div className="track"><div className={ 'bar '+(t.getRatingClass(        rating_overall  )) } style={{ width: rating_overall          +'%'}}></div></div></li>
             <li className="rating"><div className="title">Culture  </div><div className="track"><div className={ 'bar '+(t.getRatingClass(t.state.rating_culture  )) } style={{ width: t.state.rating_culture  +'%'}}></div></div></li>

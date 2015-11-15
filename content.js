@@ -125,6 +125,23 @@ function run(anchor_obj) {
         };
       }
     }, {
+      section: 'art',
+      handler: function handler(item) {
+        var v = item.venue;
+        var photo = v.photos.count ? v.photos.groups[0].items[0] : null;
+        return {
+          name: v.name,
+          address: v.location ? v.location.formattedAddress.join(', ') : '',
+          category: v.categories && v.categories.length ? v.categories[0].name : '',
+          lat: v.location.lat,
+          lon: v.location.lng,
+          phone: v.contact ? v.contact.phone : '',
+          photo: photo ? photo.prefix + '300' + photo.suffix : '',
+          rating: v.rating,
+          section: 'art'
+        };
+      }
+    }, {
       section: 'sights',
       handler: function handler(item) {
         var v = item.venue;
@@ -142,7 +159,7 @@ function run(anchor_obj) {
         };
       }
     }, {
-      section: 'outdoors',
+      section: 'drinks',
       handler: function handler(item) {
         var v = item.venue;
         var photo = v.photos.count ? v.photos.groups[0].items[0] : null;
@@ -180,10 +197,10 @@ function run(anchor_obj) {
 
     Promise.all(promises).then(function (resolutions) {
       outerResolve({
-        venues: resolutions[0].slice(0, 10),
-        rating_culture: normalizeFsqRatings((0, _lodash2.default)(resolutions[1]).filter(hasRating).pluck('rating').value()),
+        venues: [].concat(resolutions[0].slice(0, 2), resolutions[1].slice(0, 2), resolutions[2].slice(0, 2), resolutions[3].slice(0, 2)),
         rating_food: normalizeFsqRatings((0, _lodash2.default)(resolutions[0]).filter(hasRating).pluck('rating').value()),
-        rating_fun: normalizeFsqRatings((0, _lodash2.default)(resolutions[2]).filter(hasRating).pluck('rating').value())
+        rating_culture: normalizeFsqRatings((0, _lodash2.default)(resolutions[1]).filter(hasRating).pluck('rating').value()),
+        rating_fun: normalizeFsqRatings((0, _lodash2.default)(resolutions[2].concat(resolutions[3])).filter(hasRating).pluck('rating').value())
       });
       console.log("RESOLUTIONS", resolutions);
     });
@@ -588,6 +605,11 @@ var Anchorage = (function (_React$Component3) {
           'div',
           { id: 'anchorage-main', className: t.state.show ? 'show' : '' },
           _react2.default.createElement('header', null),
+          _react2.default.createElement(
+            'h2',
+            { className: 'title' },
+            'Neighborhood Scores'
+          ),
           _react2.default.createElement(
             'ul',
             { className: 'ratings' },
